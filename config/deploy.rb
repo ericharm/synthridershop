@@ -10,7 +10,7 @@ set :repo_url, "git@github.com:ericharm/synthridershop.git"
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, "/var/www/my_app_name"
 set :default_env, { rvm_bin_path: '~/.rvm/bin' }
-set :deploy_to, "/home/ubuntu/mudworld"
+set :deploy_to, "/home/ubuntu/synthridershop"
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 

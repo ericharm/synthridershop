@@ -45,7 +45,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 
-# gem 'figaro'
+gem 'figaro'
 # gem 'capistrano-rails', group: :development
 gem 'capistrano3-nginx', '~> 2.0'
 # gem "capistrano", "~> 3.10", require: false
