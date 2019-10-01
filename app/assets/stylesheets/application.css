@@ -34,8 +34,13 @@ body {
 header {
   padding: 0.5rem;
   color: #ffffff;
-  background: #99393c;
+  background: #666666;
   display: flex;
+}
+
+header a {
+  text-decoration: none;
+  color: #afccff;
 }
 
 .spacer {
