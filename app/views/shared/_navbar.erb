@@ -1,0 +1,18 @@
+<header>
+  <div class="left">
+    <h1>synthridershop</h1>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="right">
+    <!-- if not logged in, 'log in' or 'sign up' -->
+    <% if current_user %>
+      <%= current_user.email %>
+      <%= link_to( 'Log out', destroy_user_session_path, :method => :delete ) %>
+    <% else %>
+      <%= link_to( 'Sign up', new_user_registration_path ) %>
+      <%= link_to( 'Sign in', new_user_session_path ) %>
+    <% end %>
+  </div>
+</header>
