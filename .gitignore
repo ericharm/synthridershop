@@ -33,3 +33,6 @@
 *.swp
 *.DS_Store
 vendor/*
+
+# Ignore application configuration
+/config/application.yml
