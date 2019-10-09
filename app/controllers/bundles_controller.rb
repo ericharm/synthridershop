@@ -5,12 +5,16 @@ class BundlesController < ApplicationController
     @bundles = current_user.bundles
   end
 
+  def new
+    @bundle = Bundle.new
+  end
+
   def create
     bundle = current_user.bundles.create(bundle_params)
     if bundle 
-      render json: { status: 201, message: 'Success', data: bundle, path: edit_bundle_path(bundle.id) }
+      redirect_to action: 'index'
     else
-      render json: { status: 400, message: 'Error' }
+      redirect_to action: 'index'
     end
   end
 
