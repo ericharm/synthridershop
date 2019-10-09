@@ -1,9 +1,13 @@
 <h2>your bundles:</h2>
 
+<br/>
 <% @bundles.each do |bundle| %>
   <div>
-    <%= bundle.name %>
+    <%= link_to bundle.name, bundle_path(bundle) %>
   </div>
 <% end %>
 
-<%= link_to 'New Bundle', new_bundle_path %>
+<div>
+  <br/>
+  <%= link_to 'New Bundle', new_bundle_path %>
+</div>

@@ -1,0 +1,10 @@
+<h2><%= @bundle.name %></h2>
+
+<br/>
+<% if @bundle.archive %>
+  <%= link_to 'Download', @bundle.archive.url %>
+<% end %>
+
+<br/>
+<br/>
+<%= link_to 'Back', bundles_path %>

@@ -19,11 +19,8 @@ class BundlesController < ApplicationController
   end
 
   def show
-    if bundle = Bundle.find(params[:id])
-      render json: { status: 200, message: 'Success', data: bundle }
-    else
-      render json: { status: 400, message: 'Error' }
-    end
+    @bundle = Bundle.find(params[:id])
+    redirect_to action: 'index' unless @bundle
   end
 
   def edit
