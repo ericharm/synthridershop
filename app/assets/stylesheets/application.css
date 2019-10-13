@@ -43,6 +43,23 @@ header a {
   color: #afccff;
 }
 
+a {
+  text-decoration: none;
+}
+
 .spacer {
   flex: 1 1;
+}
+
+.bundle-card {
+  width: 14rem;
+}
+
+.bundle-card .card-body {
+  width: 100%;
+  height: 15rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 3px;
 }

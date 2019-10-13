@@ -30,9 +30,11 @@ class BundlesController < ApplicationController
   def update
     bundle = current_user.bundles.find(params[:id])
     if bundle && bundle.update(bundle_params)
-      render json: { status: 202, message: 'Success', data: bundle }
+      flash[:notice] = "#{bundle.title} has been updated"
+      redirect_to action: 'index'
     else
-      render json: { status: 400, message: 'Error' }
+      flash[:alert] = "#{bundle.title} could not be updated"
+      redirect_to action: 'index'
     end
   end
 
@@ -52,7 +54,9 @@ class BundlesController < ApplicationController
   private
 
   def bundle_params
-    params.require(:bundle).permit(:name, :archive, :user_id)
+    params.require(:bundle).permit(
+      :title, :artist, :difficulties, :thumbnail, :archive, :public, :user_id
+    )
   end
 
 end

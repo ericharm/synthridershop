@@ -1,0 +1,35 @@
+<%= form_with model: @bundle do |f| %>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :artist %><br />
+    <%= f.text_field :artist %>
+  </div>
+
+  <div class="field">
+    <%= f.label :difficulties %><br />
+    <%= f.text_field :difficulties %>
+  </div>
+
+  <div class="field">
+    <%= f.label :thumbnail %><br />
+    <%= f.file_field :thumbnail %>
+  </div>
+
+  <div class="field">
+    <%= f.label :archive %><br />
+    <%= f.file_field :archive %>
+  </div>
+
+  <div class="field">
+    <%= f.label :public %><br />
+    <%= f.check_box :public, {}, 'true', 'false' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>

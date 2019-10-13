@@ -2,9 +2,7 @@
 
 <br/>
 <% @bundles.each do |bundle| %>
-  <div>
-    <%= link_to bundle.name, bundle_path(bundle) %>
-  </div>
+  <%= render partial: 'card', locals: { bundle: bundle } %>
 <% end %>
 
 <div>

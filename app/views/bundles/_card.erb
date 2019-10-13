@@ -1,0 +1,9 @@
+<%= link_to bundle_path(bundle) do %>
+  <div class="bundle-card">
+    <div class="card-body" style="background-image: url(<%= bundle.thumbnail.url %>);"></div>
+    <%= bundle.artist %> -
+    <%= bundle.title %> by
+    <%= bundle.author.email %> <!-- db should query for this to avoid n+1 -->
+  </div>
+<% end %>
+<%= link_to 'Edit', edit_bundle_path(bundle) %>
