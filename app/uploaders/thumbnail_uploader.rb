@@ -13,7 +13,7 @@ class ThumbnailUploader < CarrierWave::Uploader::Base
     # "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   # end
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/"
+    "uploads/#{model.class.to_s.underscore}/thumbnail/"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

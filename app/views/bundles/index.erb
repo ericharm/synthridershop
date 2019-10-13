@@ -1,6 +1,8 @@
 <div class="container">
   <h4 class="header">Featured maps</h4>
-  <% @bundles.each do |bundle| %>
-    <%= render partial: 'card', locals: { bundle: bundle } %>
-  <% end %>
+  <div class="bundle-cards">
+    <% @bundles.each do |bundle| %>
+      <%= render partial: 'card', locals: { bundle: bundle } %>
+    <% end %>
+  </div>
 </div>

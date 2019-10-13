@@ -43,11 +43,11 @@ class BundlesController < ApplicationController
     bundles = current_user.bundles
     bundle = bundles.find(params[:id])
     if bundle 
-      name = bundle.name
+      title = bundle.title
       bundle.destroy
-      flash[:notice] = "#{name} was deleted"
+      flash[:notice] = "#{title} was deleted"
     else
-      flash[:alert] = "#{name} could not be deleted"
+      flash[:alert] = "#{title} could not be deleted"
     end
     redirect_to action: 'index'
   end

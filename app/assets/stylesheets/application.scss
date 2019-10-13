@@ -48,8 +48,11 @@ form .actions {
 
 .bundle-card {
   width: 14rem;
-  display: inline-block;
   margin: 1rem;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .bundle-card > a {
