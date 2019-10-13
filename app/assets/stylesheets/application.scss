@@ -1,0 +1,79 @@
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+@import "materialize/components/color-variables";
+@import 'materialize';
+
+html {
+  width: 100vw;
+  height: 100vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+}
+
+input[type="file"] {
+  color: rgba(0, 0, 0, 0);
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.m-b {
+  margin-bottom: 1.5rem;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.nav-wrapper {
+  padding-left: 1rem;
+}
+
+form .actions {
+  text-align: right;
+}
+
+.bundle-card {
+  width: 14rem;
+  display: inline-block;
+  margin: 1rem;
+}
+
+.bundle-card > a {
+  display: inline-block;
+  width: 100%;
+}
+
+.bundle-card .card-body {
+  width: 100%;
+  height: 15rem;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 3px;
+}
+
+.thumbnail-preview, .archive-preview {
+  height: 6em;
+  width: 6em;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.thumbnail img {
+  max-width: 100%;
+}

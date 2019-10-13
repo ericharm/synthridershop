@@ -1,11 +1,6 @@
-<h2>your bundles:</h2>
-
-<br/>
-<% @bundles.each do |bundle| %>
-  <%= render partial: 'card', locals: { bundle: bundle } %>
-<% end %>
-
-<div>
-  <br/>
-  <%= link_to 'New Bundle', new_bundle_path %>
+<div class="container">
+  <h4 class="header">Featured maps</h4>
+  <% @bundles.each do |bundle| %>
+    <%= render partial: 'card', locals: { bundle: bundle } %>
+  <% end %>
 </div>

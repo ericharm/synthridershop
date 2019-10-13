@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   # root to: 'pages#home'
   root to: 'bundles#index'
   resources :bundles
+  resources :users, only: [:show]
 end

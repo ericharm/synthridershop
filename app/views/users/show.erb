@@ -1,0 +1,19 @@
+<div class="container">
+
+  <% if @bundles.length > 0 %>
+    <h4 class="header"><%= @heading %></h4>
+    <% @bundles.each do |bundle| %>
+      <%= render partial: 'bundles/card', locals: { bundle: bundle } %>
+    <% end %>
+  <% else %>
+    <span class="italic">
+      <%= @is_current ? "You haven't" : "#{@user.email} hasn't" %> authored any maps yet.
+    </span>
+  <% end %>
+
+  <% if @is_current %>
+    <div>
+      <%= link_to 'New Bundle', new_bundle_path, class: 'btn waves-effect waves-light' %>
+    </div>
+  <% end %>
+</div>

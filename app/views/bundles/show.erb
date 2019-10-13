@@ -1,10 +1,25 @@
-<h2><%= @bundle.title %></h2>
+<div class="container">
+  <h4 class="header">
+    <span class="teal-text text-lighten-1 italic"><%= @bundle.title %></span>
+    <span>by <%= @bundle.artist %></span>
+  </h4>
 
-<br/>
-<% if @bundle.archive %>
-  <%= link_to 'Download', @bundle.archive.url %>
-<% end %>
+  <h5><%= link_to @bundle.author.email, user_path(@bundle.author) %></h5>
 
-<br/>
-<br/>
-<%= link_to 'Back', bundles_path %>
+  <div class="bundle-show row m-b">
+    <div class="col thumbnail m4 s12">
+      <img src="<%= @bundle.thumbnail.url %>" />
+    </div>
+    <div class="col m8 s12">
+      <h6 class="heading">Difficulties:</h6>
+      <div class="m-b"><%= @bundle.difficulties %></div>
+      <% if @bundle.archive %>
+        <%= link_to 'Download', @bundle.archive.url, class: 'btn waves-effect waves-light' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div>
+    <%= link_to 'Back', bundles_path, class: 'btn waves-effect waves-light' %>
+  </div>
+</div>

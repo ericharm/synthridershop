@@ -2,7 +2,8 @@ class BundlesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @bundles = current_user.bundles
+    # @bundles = Bundle.where(public: true) # eventually must paginate
+    @bundles =  Bundle.where(public: true).joins(:author).preload(:author)
   end
 
   def new
