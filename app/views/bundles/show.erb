@@ -1,11 +1,13 @@
 <div class="container">
   <h4 class="header">
-    <span class="teal-text text-lighten-1 italic"><%= @bundle.title %></span>
-    <span>by <%= @bundle.artist %></span>
+    <span class="italic"><%= @bundle.title %></span> by
+    <span class="bold"><%= @bundle.artist %></span>
   </h4>
 
-  <h5><%= link_to @bundle.author.email, user_path(@bundle.author) %></h5>
-
+  <h5>
+    <%= link_to @bundle.author.email, user_path(@bundle.author), class: 'teal-text text-lighten-1' %>
+  </h5>
+ 
   <div class="bundle-show row m-b">
     <div class="col thumbnail m4 s12">
       <img src="<%= @bundle.thumbnail.url %>" />
