@@ -1,14 +1,15 @@
 <%= link_to bundle_path(bundle) do %>
-  <div class="bundle-card">
+  <div class="bundle-card blue-grey-text text-darken-4">
     <div class="card-body" style="background-image: url(<%= bundle.thumbnail.url %>);"></div>
-    <span class="blue-grey-text text-darken-4 bold"><%= bundle.artist %> - </span>
-    <span class="teal-text text-lighten-1"><%= bundle.title %></span>
+    <span class="blue-grey-text text-darken-4 bold"><%= bundle.artist %> </span>
+    <span class="blue-grey-text text-darken-4 italic"><%= bundle.title %></span>
     <span class="blue-grey-text text-darken-4">by</span>
     <%= link_to user_path(bundle.author) do %>
-      <span class="blue-grey-text text-darken-4"><%= bundle.author.email %></span>
+      <span class="teal-text text-lighten-1"><%= bundle.author.email %></span>
     <% end %>
     <% if bundle.author_id == current_user.id %>
       <%= link_to 'Edit', edit_bundle_path(bundle), class: 'btn' %>
     <% end %>
   </div>
+
 <% end %>
