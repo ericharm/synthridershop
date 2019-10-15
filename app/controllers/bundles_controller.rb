@@ -2,7 +2,6 @@ class BundlesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # @bundles = Bundle.where(public: true) # eventually must paginate
     @bundles =  Bundle.where(public: true).joins(:author).preload(:author)
   end
 
@@ -13,10 +12,11 @@ class BundlesController < ApplicationController
   def create
     bundle = current_user.bundles.create(bundle_params)
     if bundle 
-      redirect_to action: 'index'
+      flash[:notice] = "#{bundle.title} has been created"
     else
-      redirect_to action: 'index'
+      flash[:alert] = "Could not create custom map"
     end
+    redirect_to action: 'index'
   end
 
   def show
@@ -32,19 +32,16 @@ class BundlesController < ApplicationController
     bundle = current_user.bundles.find(params[:id])
     if bundle && bundle.update(bundle_params)
       flash[:notice] = "#{bundle.title} has been updated"
-      redirect_to action: 'index'
     else
       flash[:alert] = "#{bundle.title} could not be updated"
-      redirect_to action: 'index'
     end
+    redirect_to action: 'index'
   end
 
   def destroy
-    bundles = current_user.bundles
-    bundle = bundles.find(params[:id])
-    if bundle 
-      title = bundle.title
-      bundle.destroy
+    bundle = current_user.bundles.find(params[:id])
+    title = bundle ? bundle.title : 'Your custom map'
+    if bundle && bundle.destroy
       flash[:notice] = "#{title} was deleted"
     else
       flash[:alert] = "#{title} could not be deleted"
