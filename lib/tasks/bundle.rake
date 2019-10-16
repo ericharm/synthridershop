@@ -4,6 +4,7 @@ namespace :bundle do
     path = args.input
     bundle = Bundle.new(path)
     bundle.display
+    # if we got this far, create the records
   end
 
   class Bundle
@@ -69,6 +70,11 @@ namespace :bundle do
         print "\n#{p}: "
         puts "" if as_string.kind_of?(Array)
         puts as_string
+      end
+
+      def save
+        # create database records, creating memos along the way
+        # if any transaction fails, roll all transactions back
       end
     end
   end
