@@ -5,21 +5,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :artist %>
-    <%= f.text_field :artist %>
-  </div>
-
-  <div class="field">
-    <%= f.label :difficulties %>
-    <%= f.text_field :difficulties %>
-  </div>
-
-  <div class="field">
-    <%= f.label :thumbnail %>
-    <%= f.file_field :thumbnail %>
-    <div class="thumbnail-preview <%= @bundle.thumbnail.url || 'hide' %>"
-         style="background-image: url(<%= @bundle.thumbnail.url %>);">
-    </div>
+    <%= f.label :description %>
+    <%= f.text_area :description, class: 'materialize-textarea' %>
   </div>
 
   <div class="field">
@@ -52,13 +39,6 @@
       reader.readAsDataURL(event.target.files[0])
     })
   }
-
-  enableFilePreview('#bundle_thumbnail', function (ev) {
-    const image = ev.target.result
-    var preview = document.querySelector('.thumbnail-preview')
-    preview.classList.remove('hide')
-    preview.style = 'background-image: url(' + image + ')'
-  })
 
   enableFilePreview('#bundle_archive', function (ev) {
     var preview = document.querySelector('.archive-preview')

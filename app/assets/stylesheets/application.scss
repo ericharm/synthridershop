@@ -20,10 +20,16 @@ html {
 body {
   width: 100%;
   height: 100%;
+  @extend .grey, .darken-4;
+  @extend .grey-text, .text-lighten-4;
 }
 
 input[type="file"] {
   color: rgba(0, 0, 0, 0);
+}
+
+input, textarea {
+  @extend .grey-text, .text-lighten-4;
 }
 
 .bold {
@@ -44,6 +50,13 @@ input[type="file"] {
 
 form .actions {
   text-align: right;
+}
+
+textarea#bundle_description {
+  height: 10em;
+  outline: 1px solid #cdcdcd;
+  overflow: auto;
+  margin-top: 0.5em;
 }
 
 .bundle-card {
