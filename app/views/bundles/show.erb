@@ -15,7 +15,9 @@
     <div class="col m8 s12">
       <div class="m-b">
         <label>Description</label><br/>
-        <%= @bundle.description %>
+        <% @bundle.description.split("\n").each do |p| %>
+          <p><%= p %></p>
+        <% end %>
       </div>
 
       <div class="m-b">
