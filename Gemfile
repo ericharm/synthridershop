@@ -19,6 +19,7 @@ gem 'carrierwave', '~> 1.0'
 gem 'carrierwave-base64'
 gem 'carrierwave-postgresql'
 gem 'fog-aws'
+gem 'zip-zip'
 
 # front end
 gem 'sass-rails', '~> 5.0'

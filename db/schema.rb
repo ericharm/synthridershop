@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_13_154151) do
+ActiveRecord::Schema.define(version: 2019_10_19_161204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,9 +22,45 @@ ActiveRecord::Schema.define(version: 2019_10_13_154151) do
     t.datetime "updated_at", null: false
     t.string "artist"
     t.string "title"
-    t.string "difficulties"
     t.boolean "public"
     t.string "thumbnail"
+    t.text "description"
+    t.integer "bpm"
+  end
+
+  create_table "contributions", force: :cascade do |t|
+    t.integer "contributor_id", null: false
+    t.integer "role_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "bundle_id", null: false
+  end
+
+  create_table "contributor_roles", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contributors", force: :cascade do |t|
+    t.string "name"
+    t.string "icon"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "difficulties", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "song_difficulties", force: :cascade do |t|
+    t.integer "bundle_id", null: false
+    t.integer "difficulty_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -35,8 +71,10 @@ ActiveRecord::Schema.define(version: 2019_10_13_154151) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
 end

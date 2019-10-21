@@ -5,7 +5,7 @@
   </h4>
 
   <h5>
-    <%= link_to @bundle.author.email, user_path(@bundle.author), class: 'teal-text text-lighten-1' %>
+    <%= link_to @bundle.author_name, user_path(@bundle.author_id), class: 'teal-text text-lighten-1' %>
   </h5>
  
   <div class="bundle-show row m-b">
@@ -13,8 +13,26 @@
       <img src="<%= @bundle.thumbnail.url %>" />
     </div>
     <div class="col m8 s12">
-      <h6 class="heading">Difficulties:</h6>
-      <div class="m-b"><%= @bundle.difficulties %></div>
+      <div class="m-b">
+        <label>Description</label><br/>
+        <%= @bundle.description %>
+      </div>
+
+      <div class="m-b">
+        <label>Contributors</label><br/>
+        <% @contributors.each do |contributor, contributions| %>
+          <%= contributor %>:&nbsp;
+          <%= contributions.join(', ') %><br/>
+        <% end %>
+      </div>
+
+      <div class="m-b">
+        <label>Difficulties</label><br/>
+        <% @bundle.difficulties.each do |difficulty| %>
+          <span class="difficulty-pill"><%= difficulty.name %></span>
+        <% end %>
+      </div>
+
       <% if @bundle.archive %>
         <%= link_to 'Download', @bundle.archive.url, class: 'btn waves-effect waves-light' %>
       <% end %>
