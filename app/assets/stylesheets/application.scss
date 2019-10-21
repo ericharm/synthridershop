@@ -93,3 +93,10 @@ textarea#bundle_description {
 .thumbnail img {
   max-width: 100%;
 }
+
+.difficulty-pill {
+  @extend .blue-grey, .lighten-3;
+  @extend .grey-text, .text-darken-4;
+  padding: .25rem .5rem;
+  border-radius: 4px;
+}

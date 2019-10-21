@@ -26,8 +26,18 @@ class BundlesController < ApplicationController
   end
 
   def show
-    @bundle = Bundle.find(params[:id])
+    @bundle = Bundle.joins('left join users on users.id = bundles.author_id')
+      .select('bundles.*', 'users.username as author_name')
+      .includes(:contributions => [:contributor, :role])
+      .includes(:difficulties).find(params[:id])
     redirect_to action: 'index' unless @bundle
+    visible = @bundle.public || @bundle.author_id == current_user.id
+    redirect_to action: 'index' unless visible
+    @contributors = @bundle.contributions.reduce({}) do |memo, c|
+      memo[c.contributor.name] = memo[c.contributor.name] || []
+      memo[c.contributor.name] << c.role.title
+      memo
+    end
   end
 
   def edit
@@ -59,7 +69,6 @@ class BundlesController < ApplicationController
 
   def bundle_params
     params.require(:bundle).permit(
-      # :title, :artist, :difficulties, :thumbnail, :archive, :public, :user_id
       :title, :description, :archive, :public, :user_id
     )
   end

@@ -40,9 +40,9 @@ module ExtractBundle
     end
 
     def bundle_params
-      # prefix = 'data:image/png;base64,'
+      mime = MIME::Types.type_for(@cover_image).first.content_type
+      prefix = "data:#{mime};base64,"
       thumbnail = Base64.encode64(@archive.read(@cover_image))
-      byebug
       { artist: @song_author, bpm: @bpm, thumbnail: "#{prefix}#{thumbnail}" }
     end
 
