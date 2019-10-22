@@ -46,8 +46,19 @@ class BundlesController < ApplicationController
 
   def update
     bundle = current_user.bundles.find(params[:id])
-    if bundle && bundle.update(bundle_params)
-      flash[:notice] = "#{bundle.title} has been updated"
+    if bundle
+      archive = bundle_params[:archive]
+      begin
+        extractor = ExtractBundle::ExtractBundle.new(archive)
+        extractor.validate_archive
+        bundle = current_user.bundles.update(bundle_params.merge(extractor.bundle_params))
+        extractor.create_contributions(bundle)
+        extractor.create_difficulties(bundle)
+        flash[:notice] = "#{bundle.title} has been updated"
+      rescue StandardError => e
+        # clean up all the records here
+        flash[:alert] = e
+      end
     else
       flash[:alert] = "#{bundle.title} could not be updated"
     end
