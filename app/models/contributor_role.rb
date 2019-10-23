@@ -1,3 +1,3 @@
 class ContributorRole < ApplicationRecord
-  belongs_to :contribution
+  has_many :contributions
 end
