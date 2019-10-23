@@ -18,10 +18,12 @@ class BundlesController < ApplicationController
       extractor.create_contributions(bundle)
       extractor.create_difficulties(bundle)
       flash[:notice] = "#{bundle.title} has been created"
+    rescue UploadError => e
+      flash[:alert] = e
     rescue StandardError => e
-      # clean up all the records here
       flash[:alert] = e
     end
+    redirect_to action: 'show', id: bundle.id if bundle
     redirect_to action: 'index'
   end
 
@@ -56,16 +58,14 @@ class BundlesController < ApplicationController
         extractor.create_difficulties(bundle)
         flash[:notice] = "#{bundle.title} has been updated"
       rescue UploadError => e
-        # clean up all the records here
         flash[:alert] = e
       rescue StandardError => e
-        # clean up all the records here
         flash[:alert] = 'There was an error updating this map'
       end
     else
       flash[:alert] = "#{bundle.title} could not be updated"
     end
-    redirect_to action: 'index'
+    redirect_to action: 'show', id: bundle.id
   end
 
   def destroy
