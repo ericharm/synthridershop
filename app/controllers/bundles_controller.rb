@@ -51,13 +51,16 @@ class BundlesController < ApplicationController
       begin
         extractor = ExtractBundle::ExtractBundle.new(archive)
         extractor.validate_archive
-        bundle = current_user.bundles.update(bundle_params.merge(extractor.bundle_params))
+        bundle.update(bundle_params.merge(extractor.bundle_params))
         extractor.create_contributions(bundle)
         extractor.create_difficulties(bundle)
         flash[:notice] = "#{bundle.title} has been updated"
-      rescue StandardError => e
+      rescue UploadError => e
         # clean up all the records here
         flash[:alert] = e
+      rescue StandardError => e
+        # clean up all the records here
+        flash[:alert] = 'There was an error updating this map'
       end
     else
       flash[:alert] = "#{bundle.title} could not be updated"

@@ -9,7 +9,7 @@ module ExtractBundle
     def initialize(archive)
       @tempfile = archive.tempfile
       @size = File.size(@tempfile)
-      raise 'Archive exceeds maximum upload size' if @size > MAXIMUM_UPLOAD_SIZE
+      raise UploadError, 'Archive exceeds maximum upload size' if @size > MAXIMUM_UPLOAD_SIZE
       Zip::File.open(@tempfile) do |a|
         @archive = a
       end
@@ -18,9 +18,9 @@ module ExtractBundle
 
     def validate_archive
       info = @archive.read('info.dat') rescue false
-      raise 'Archive missing info.dat' unless info
+      raise UploadError, 'Archive missing info.dat' unless info
       data = JSON.parse(info) rescue false
-      raise 'info.dat contains invalid JSON' unless data
+      raise UploadError, 'info.dat contains invalid JSON' unless data
       @name = data['_songName']
       @sub_name = data['_songSubName']
       @song_author = data['_songAuthorName']
@@ -35,8 +35,8 @@ module ExtractBundle
         defined = s['_difficultyBeatmaps'] || []
         memo.concat(defined.map { |d| DifficultyInfo.new(d, @archive) })
       end
-      raise 'Missing cover image' unless cover_image_exists
-      raise 'Missing or invalid song file' unless has_valid_song
+      raise UploadError, 'Missing cover image' unless cover_image_exists
+      raise UploadError, 'Missing or invalid song file' unless has_valid_song
     end
 
     def bundle_params
@@ -47,6 +47,7 @@ module ExtractBundle
     end
 
     def create_contributions(bundle)
+      bundle.contributions.each { |c| c.destroy }
       @contributors.each do |contributor|
         contributor_record = Contributor.find_or_create_by(name: contributor.name) do |c|
           # c.icon =  contributor.icon # update if different
@@ -59,6 +60,7 @@ module ExtractBundle
     end
 
     def create_difficulties(bundle)
+      bundle.song_difficulties.each { |d| d.destroy }
       @difficulties.each do |d|
         difficulty = Difficulty.find_or_create_by(name: d.name)
         SongDifficulty.create(difficulty_id: difficulty.id, bundle_id: bundle.id)
@@ -102,7 +104,7 @@ module ExtractBundle
       @name = data['_difficulty']
       @rank = data['_difficultyRank']
       @file = data['_beatmapFilename']
-      raise "Invalid difficulty descriptor for #{@name}" unless has_valid_descriptor
+      raise UploadError, "Invalid difficulty descriptor for #{@name}" unless has_valid_descriptor
     end
 
     def to_s
@@ -125,7 +127,7 @@ module ExtractBundle
       @name = data['_name']
       @role = data['_role']
       @icon = data['_iconPath']
-      raise "Invalid contributor icon for #{@name}" if @icon && !has_valid_icon
+      raise UploadError, "Invalid contributor icon for #{@name}" if @icon && !has_valid_icon
     end
 
     def to_s
