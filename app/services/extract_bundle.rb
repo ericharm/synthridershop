@@ -68,6 +68,7 @@ module ExtractBundle
     end
 
     def display
+      logger = Rails.logger
       properties = [
         @name, @sub_name, @song_author, @level_author, @bpm, @song, @cover_image,
         @difficulties, @contributors
@@ -75,9 +76,9 @@ module ExtractBundle
 
       properties.each do |p|
         as_string = send(p)
-        print "\n#{p}: "
-        puts "" if as_string.kind_of?(Array)
-        puts as_string
+        logger.info "\n#{p}: "
+        logger.info "" if as_string.kind_of?(Array)
+        logger.info as_string
       end
     end
 

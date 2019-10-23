@@ -53,6 +53,7 @@ class BundlesController < ApplicationController
       begin
         extractor = ExtractBundle::ExtractBundle.new(archive)
         extractor.validate_archive
+        extractor.display
         bundle.update(bundle_params.merge(extractor.bundle_params))
         extractor.create_contributions(bundle)
         extractor.create_difficulties(bundle)
