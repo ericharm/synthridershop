@@ -63,7 +63,7 @@ module ExtractBundle
       bundle.song_difficulties.each { |d| d.destroy }
       @difficulties.each do |d|
         difficulty = Difficulty.find_or_create_by(name: d.name)
-        SongDifficulty.create(difficulty_id: difficulty.id, bundle_id: bundle.id)
+        SongDifficulty.find_or_create_by(difficulty_id: difficulty.id, bundle_id: bundle.id)
       end
     end
 
