@@ -11,20 +11,12 @@ class BundlesController < ApplicationController
 
   def create
     archive = bundle_params[:archive]
-    begin
-      extractor = ExtractBundle::ExtractBundle.new(archive)
-      extractor.validate_archive
-      bundle = current_user.bundles.create(bundle_params.merge(extractor.bundle_params))
-      extractor.create_contributions(bundle)
-      extractor.create_difficulties(bundle)
-      flash[:notice] = "#{bundle.title} has been created"
-    rescue UploadError => e
-      flash[:alert] = e
-    rescue StandardError => e
-      flash[:alert] = e
+    bundle = extract_archive(archive)
+    if bundle
+      redirect_to action: 'show', id: bundle.id
+    else
+      redirect_to action: 'index'
     end
-    redirect_to action: 'show', id: bundle.id if bundle
-    redirect_to action: 'index'
   end
 
   def show
@@ -50,18 +42,10 @@ class BundlesController < ApplicationController
     bundle = current_user.bundles.find(params[:id])
     if bundle
       archive = bundle_params[:archive]
-      begin
-        extractor = ExtractBundle::ExtractBundle.new(archive)
-        extractor.validate_archive
-        bundle.update(bundle_params.merge(extractor.bundle_params))
-        extractor.create_contributions(bundle)
-        extractor.create_difficulties(bundle)
-        flash[:notice] = "#{bundle.title} has been updated"
-      rescue UploadError => e
-        flash[:alert] = e
-      rescue StandardError => e
-        # flash[:alert] = 'There was an error updating this map'
-        flash[:alert] = e
+      if archive
+        extract_archive(archive, bundle)
+      else
+        bundle.update(bundle_params)
       end
     else
       flash[:alert] = "#{bundle.title} could not be updated"
@@ -82,10 +66,30 @@ class BundlesController < ApplicationController
 
   private
 
+
+  def extract_archive(archive, bundle = nil)
+    success_verb = bundle ? 'updated' : 'created'
+    begin
+      extractor = ExtractBundle::ExtractBundle.new(archive)
+      extractor.validate_archive
+      if (bundle)
+        bundle.update(bundle_params.merge(extractor.bundle_params))
+      else
+        bundle = current_user.bundles.create(bundle_params.merge(extractor.bundle_params))
+      end
+      extractor.create_contributions(bundle)
+      extractor.create_difficulties(bundle)
+      flash[:notice] = "#{bundle.title} has been #{success_verb}"
+    rescue UploadError => e
+      flash[:alert] = e
+    rescue StandardError => e
+      flash[:alert] = e
+    end
+    return bundle
+  end
+
   def bundle_params
-    params.require(:bundle).permit(
-      :title, :description, :archive, :public, :user_id
-    )
+    params.require(:bundle).permit(:title, :description, :archive, :public, :user_id)
   end
 
 end
