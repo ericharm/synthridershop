@@ -15,7 +15,11 @@ class User < ApplicationRecord
     subscriptions.where('expires_at > ?', Time.now).length > 0
   end
 
-  def has_overlapping_subscriptions?
-    subscriptions.where('expires_at > ?', Time.now).length > 1
+  def subscription_expiration
+    subscriptions.order(expires_at: :desc).first
   end
+
+  # def has_overlapping_subscriptions?
+    # subscriptions.where('expires_at > ?', Time.now).length > 1
+  # end
 end
