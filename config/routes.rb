@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   devise_for :users
 
   # root to: 'pages#home'
   root to:  'bundles#index'
   resources :bundles
   resources :users, only: [:show]
+  resources :subscriptions, only: [:new, :create]
+  resources :payments, only: [:create]
 end
