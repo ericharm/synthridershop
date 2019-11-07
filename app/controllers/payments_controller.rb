@@ -3,9 +3,10 @@ class PaymentsController < ApplicationController
 
   def create
     # move this into an environment variable
-    dev_return_url = 'https://fcf65885.ngrok.io/subscriptions'
-    return_url = Rails.env == 'development' ? dev_return_url : subscriptions_path
-    
+    # dev_return_url = 'https://fcf65885.ngrok.io/subscriptions'
+    # return_url = Rails.env == 'development' ? dev_return_url : subscriptions_path
+    return_url = "#{root_url}#{subscriptions_path[1..-1]}"
+
     plan = Plan.find(params[:plan_id])
 
     payment = PayPal::SDK::REST::Payment.new({
