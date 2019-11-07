@@ -1,11 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
 
-  def new
-    @plans = Plan.all
-  end
-
-  def create
+  def index
     puts "current_user: #{current_user.username}"
     payment = PayPal::SDK::REST::Payment.find(params[:paymentId])
     if payment.execute(payer_id: params[:PayerID])
@@ -15,5 +11,9 @@ class SubscriptionsController < ApplicationController
       flash[:alert] = payment.error
     end
     redirect_to root_path
+  end
+
+  def new
+    @plans = Plan.all
   end
 end

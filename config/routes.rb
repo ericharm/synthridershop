@@ -5,6 +5,6 @@ Rails.application.routes.draw do
   root to:  'bundles#index'
   resources :bundles
   resources :users, only: [:show]
-  resources :subscriptions, only: [:new, :create]
+  resources :subscriptions, only: [:index, :new]
   resources :payments, only: [:create]
 end

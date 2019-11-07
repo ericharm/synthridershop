@@ -12,6 +12,13 @@
   <% end %>
 
   <% if @is_current %>
+    <div class="subscription">
+      <% if @user.subscribed? %>
+        Subscribed until <%= @user.subscription_expiration %>
+      <% else %>
+        <%= link_to 'Subscribe', new_subscription_path %>
+      <% end %>
+    </div>
     <div>
       <%= link_to 'Upload a New Map', new_bundle_path, class: 'btn waves-effect waves-light' %>
     </div>

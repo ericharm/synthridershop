@@ -3,7 +3,7 @@ class PaymentsController < ApplicationController
 
   def create
     # move this into an environment variable
-    dev_return_url = 'https://da331483.ngrok.io/subscriptions/execute'
+    dev_return_url = 'https://fcf65885.ngrok.io/subscriptions'
     return_url = Rails.env == 'development' ? dev_return_url : subscriptions_path
     
     plan = Plan.find(params[:plan_id])
@@ -15,7 +15,7 @@ class PaymentsController < ApplicationController
       },
       :redirect_urls => {
         :return_url => return_url,
-        :cancel_url => "http://localhost:3000/"
+        :cancel_url => root_path
       },
       :transactions =>  [{
         :item_list => {

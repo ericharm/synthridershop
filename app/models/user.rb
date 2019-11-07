@@ -16,6 +16,9 @@ class User < ApplicationRecord
   end
 
   def subscription_expiration
-    subscriptions.order(expires_at: :desc).first
+    return 'Not Subscribed' unless newest_sub = subscriptions.order(expires_at: :desc).first
+    exp = newest_sub.expires_at
+    date = Date.new(exp.year, exp.month, exp.day)
+    date.strftime('%b %e, %Y')
   end
 end
