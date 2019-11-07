@@ -34,7 +34,9 @@
       </div>
 
       <% if @bundle.archive %>
-        <%= link_to 'Download', @bundle.archive.url, class: 'btn waves-effect waves-light' %>
+        <% if current_user.subscribed? %>
+          <%= link_to 'Download', @bundle.archive.url, class: 'btn waves-effect waves-light' %>
+        <% end %>
         <% if @bundle.author_id == current_user.id %>
           <%= link_to 'Edit', edit_bundle_path(@bundle), class: 'btn' %>
         <% end %>
