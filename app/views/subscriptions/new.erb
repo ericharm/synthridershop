@@ -1,0 +1,13 @@
+<div class="container">
+  <%= form_tag payments_path, method: :post do %>
+    <% @plans.each do |plan| %>
+      <div>
+        <label>
+          <%= radio_button_tag 'plan_id', plan.id, class: 'with-gap' %>
+          <span><%= plan.name %> $<%= sprintf("%0.02f", plan.price / 100) %></span>
+        </label>
+      </div>
+    <% end %>
+    <%= submit_tag 'Subscribe', class: 'btn' %>
+  <% end %>
+</div>

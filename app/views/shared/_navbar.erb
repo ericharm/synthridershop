@@ -3,7 +3,10 @@
     <%= link_to 'beatmaps', root_path, class: 'brand-logo' %>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <% if current_user %>
-        <li><%= link_to current_user.email, user_path(current_user) %></li>
+        <% unless current_user.subscribed? %>
+          <li><%= link_to 'Subscribe', new_subscription_path %></li>
+        <% end %>
+        <li><%= link_to current_user.username, user_path(current_user) %></li>
         <li><%= link_to( 'Log out', destroy_user_session_path, :method => :delete ) %></li>
       <% else %>
         <li><%= link_to( 'Sign up', new_user_registration_path ) %></li>

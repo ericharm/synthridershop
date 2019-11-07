@@ -8,6 +8,7 @@ gem 'puma', '~> 3.11'
 gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'figaro'
+gem 'paypal-sdk-rest'
 
 # db
 gem 'sqlite3'
@@ -28,7 +29,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks', '~> 5'
 gem 'coffee-rails', '~> 4.2'
 
-#deploy
+# deploy
 gem 'capistrano3-nginx', '~> 2.0'
 gem "capistrano-rails", "~> 1.4", require: false
 gem 'capistrano-rvm'
