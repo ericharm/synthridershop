@@ -21,4 +21,9 @@ class User < ApplicationRecord
     date = Date.new(exp.year, exp.month, exp.day)
     date.strftime('%b %e, %Y')
   end
+
+  def authorized_to_approve?
+    # oops please rename these columns is_admin and is_approver
+    (admin || approver) || false
+  end
 end

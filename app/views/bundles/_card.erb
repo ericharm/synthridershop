@@ -4,7 +4,7 @@
     <span class="blue-grey-text text-darken-4 bold"><%= bundle.artist %> </span>
     <span class="blue-grey-text text-darken-4 italic"><%= bundle.title %></span>
     <span class="blue-grey-text text-darken-4">by</span>
-    <%= link_to user_path(bundle.author) do %>
+    <%= link_to user_path(bundle.author.username) do %>
       <span class="teal-text text-lighten-1"><%= bundle.author.username %></span>
     <% end %>
   </div>
