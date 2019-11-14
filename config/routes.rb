@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :subscriptions, only: [:index, :new]
   resources :payments, only: [:create]
 
+  post 'bundles/:id/approve', to: 'bundles#approve', as: :approve
   get 'users/:username', to: 'users#show', as: :user
   get 'account', to: 'users#account', as: :account
 

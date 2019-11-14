@@ -31,7 +31,7 @@ class BundlesController < ApplicationController
       .includes(:contributions => [:contributor, :role])
       .includes(:difficulties).find(params[:id])
     redirect_to action: 'index' unless @bundle
-    visible = @bundle.public || @bundle.author_id == current_user.id
+    visible = @bundle.is_approved || @bundle.author_id == current_user.id || current_user.authorized_to_approve?
     redirect_to action: 'index' unless visible
     @contributors = @bundle.contributions.reduce({}) do |memo, c|
       memo[c.contributor.name] = memo[c.contributor.name] || []
@@ -41,7 +41,8 @@ class BundlesController < ApplicationController
   end
 
   def edit
-    @bundle = current_user.bundles.find(params[:id])
+    @bundle = Bundle.find(params[:id])
+    redirect_to action: 'index' unless (current_user.authorized_to_edit?(@bundle))
   end
 
   def update
@@ -68,6 +69,12 @@ class BundlesController < ApplicationController
       flash[:alert] = "#{title} could not be deleted"
     end
     redirect_to action: 'index'
+  end
+
+  def approve
+    bundle = Bundle.find(params[:id])
+    bundle.update(is_approved: true) if current_user.authorized_to_approve?
+    redirect_to action: 'show', id: bundle.id
   end
 
   private

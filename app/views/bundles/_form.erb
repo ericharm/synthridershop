@@ -17,14 +17,12 @@
     </div>
   </div>
 
-  <% if current_user.authorized_to_approve? %>
-    <div class="field">
-      <label>
-        <%= f.check_box :public %>
-        <span>Approved</span>
-      </label>
-    </div>
-  <% end %>
+  <div class="field">
+    <label>
+      <%= f.check_box :public %>
+      <span>Public</span>
+    </label>
+  </div>
 
   <div class="actions">
     <%= f.submit "Submit", class: 'btn waves-effect waves-light' %>
