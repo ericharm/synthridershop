@@ -1,14 +1,14 @@
 module SubscriptionHelper
   def inactive_since(sub)
-    expiration_string(sub) || 'Never Subscribed'
+    sub ? expiration_string(sub) : 'Never Subscribed'
   end
 
   def subscription_expires(sub)
-    expiration_string(sub) || 'Not Subscribed'
+    sub ? expiration_string(sub) : 'Not Subscribed'
   end
 
   def subscription_started(sub)
-    began_string(sub) || 'Not Subscribed'
+    sub ? began_string(sub) : 'Not Subscribed'
   end
 
   def expiration_string(sub)
