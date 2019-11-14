@@ -1,5 +1,14 @@
 <div class="container">
-  <h4 class="header">Featured maps</h4>
+  <% if @pending.length > 0 %>
+    <h4>Pending maps</h4>
+    <div class="bundle-cards">
+      <% @pending.each do |bundle| %>
+        <%= render partial: 'card', locals: { bundle: bundle } %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <h4>Featured maps</h4>
   <div class="bundle-cards">
     <% @bundles.each do |bundle| %>
       <%= render partial: 'card', locals: { bundle: bundle } %>

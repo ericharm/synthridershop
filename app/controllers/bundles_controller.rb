@@ -2,7 +2,13 @@ class BundlesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @bundles =  Bundle.where(public: true).joins(:author).preload(:author)
+    @bundles = Bundle.where(is_approved: true)
+      .joins('left join users on users.id = bundles.author_id')
+      .select('bundles.*', 'users.username as author_name')
+    @pending = !current_user.authorized_to_approve?  ? []
+      : Bundle.where.not(is_approved: true)
+        .joins('left join users on users.id = bundles.author_id')
+        .select('bundles.*', 'users.username as author_name')
   end
 
   def new

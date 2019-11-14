@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
   def visible_bundles(current_user_id)
-    current_user_id == self.id ? self.bundles : self.bundles.where(public: true)
+    current_user_id == self.id ? self.bundles : self.bundles.where(is_approved: true)
   end
 
   def subscribed?
@@ -19,8 +19,11 @@ class User < ApplicationRecord
     subscriptions.order(expires_at: :desc).first || nil
   end
 
+  def authorized_to_edit?(bundle)
+    (is_admin || bundle.author_id == id) || false
+  end
+
   def authorized_to_approve?
-    # oops please rename these columns is_admin and is_approver
-    (admin || approver) || false
+    (is_admin || is_approver) || false
   end
 end
