@@ -15,8 +15,16 @@ class User < ApplicationRecord
     subscriptions.where('expires_at > ?', Time.now).length > 0
   end
 
+  def inactive_since
+    newest_sub_expiration || 'Never Subscribed'
+  end
+
   def subscription_expiration
-    return 'Not Subscribed' unless newest_sub = subscriptions.order(expires_at: :desc).first
+    newest_sub_expiration || 'Not Subscribed'
+  end
+
+  def newest_sub_expiration
+    return nil unless newest_sub = subscriptions.order(expires_at: :desc).first
     exp = newest_sub.expires_at
     date = Date.new(exp.year, exp.month, exp.day)
     date.strftime('%b %e, %Y')

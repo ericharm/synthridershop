@@ -1,0 +1,72 @@
+<div class="container">
+  <h3>Account Overview</h3>
+  <div id="subscription-info">
+    <h5>Subscription Status</h5>
+    <% if @user.subscribed? %>
+      <div class="field">
+        <label>[price] / [period] recurring</label>
+        <span>(not yet implemented)</span>
+      </div>
+       
+      <div class="field">
+        <label>Active since</label>
+        <span>[subscription start date]</span>
+      </div>
+
+      <div class="field">
+        <label>Next billing period begins</label>
+        <span>(not yet implemented)</span>
+      </div>
+
+      <div id="unfold-subs">Update Subscription</div>
+    <% else %>
+      <div class="field">
+        <label>Inactive</label>
+      </div>
+
+      <div class="field">
+        <label>Inactive Since</label>
+        <span><%= @user.inactive_since %></span>
+      </div>
+    <% end %>
+
+    <div class="<%= @user.subscribed? ? 'hidden' : '' %>">
+      <h6>Choose your subscription plan</h6>
+      <%= form_tag payments_path, method: :post do %>
+        <% @plans.each do |plan| %>
+          <div>
+            <label>
+              <%= radio_button_tag 'plan_id', plan.id, class: 'with-gap' %>
+              <span><%= plan.name %> $<%= sprintf("%0.02f", plan.price / 100) %></span>
+            </label>
+          </div>
+        <% end %>
+        <%= submit_tag 'Subscribe', class: 'btn' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div id="profile">
+    <h5>Profile</h5>
+
+    <div class="field">
+      <label>Email</label>
+      <span><%= @user.email %></span>
+    </div>
+
+    <div class="field">
+      <label>Username</label>
+      <span><%= @user.username %></span>
+    </div>
+
+    <div class="field">
+      <label>Date Of Birth</label>
+      <span>(not yet implemented)</span>
+    </div>
+
+    <div class="field">
+      <label>Update Password</label>
+      <span>(not yet implemented)</span>
+    </div>
+  </div>
+</div>

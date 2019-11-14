@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :payments, only: [:create]
 
   get 'users/:username', to: 'users#show', as: :user
+  get 'account', to: 'users#account', as: :account
 end
