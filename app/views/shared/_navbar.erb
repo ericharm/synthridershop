@@ -1,3 +1,4 @@
+
 <nav>
   <div class="nav-wrapper blue-grey darken-4">
     <%= link_to 'beatmaps', root_path, class: 'brand-logo' %>
@@ -6,7 +7,15 @@
         <% unless current_user.subscribed? %>
           <li><%= link_to 'Subscribe', new_subscription_path %></li>
         <% end %>
-        <li><%= link_to current_user.username, user_path(current_user.username) %></li>
+        <li>
+          <%= link_to current_user.username, '#', class: 'dropdown-trigger', 'id' => 'user-pages' %>
+            <ul class="dropdown-content">
+              <li><%= link_to 'Upload a Map', new_bundle_path  %></li>
+              <li><%= link_to 'Your Maps', user_path(current_user.username) %></li>
+              <li class="divider"></li>
+              <li><%= link_to 'Account', user_path(current_user.username) %></li>
+            </ul>
+        </li>
         <li><%= link_to 'Songs', bundles_path %></li>
         <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
       <% else %>
@@ -16,3 +25,7 @@
     </ul>
   </div>
 </nav>
+
+<script>
+  dropdown('#user-pages')
+</script>

@@ -49,6 +49,18 @@ input, textarea {
   padding-left: 1rem;
 }
 
+ul.dropdown-content {
+  background-color: unset;
+  left: unset;
+  top: unset;
+  opacity: unset;
+}
+
+.dropdown-content.active {
+  display: block;
+  @extend .grey, .darken-4;
+}
+
 form .actions {
   text-align: right;
 }

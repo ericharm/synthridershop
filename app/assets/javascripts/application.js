@@ -14,3 +14,34 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+function ready (fn) {
+  if (document.readyState !== 'loading') fn()
+  else document.addEventListener('DOMContentLoaded', fn)
+}
+
+function dropdown (selector) {
+  var trigger = document.querySelector(selector)
+  var content = document.querySelector(selector + ' + ul')
+  var active = false
+
+  function toggle () {
+    active = !active
+    if (active) content.classList.add('active')
+    else content.classList.remove('active')
+  }
+
+  function hide () {
+    if (active) toggle()
+  }
+
+  trigger.addEventListener('click', function (event) {
+    event.preventDefault()
+    toggle()
+  })
+
+  var body = document.querySelector('body')
+  body.addEventListener('click', function (event) {
+    if (event.target !== trigger) hide()
+  })
+}
