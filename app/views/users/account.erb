@@ -10,12 +10,12 @@
        
       <div class="field">
         <label>Active since</label>
-        <span>[subscription start date]</span>
+        <span><%= subscription_started(@newest_sub) %></span>
       </div>
 
       <div class="field">
         <label>Next billing period begins</label>
-        <span>(not yet implemented)</span>
+        <span><%= subscription_expires(@newest_sub) %></span>
       </div>
 
       <div id="unfold-subs">Update Subscription</div>
@@ -26,7 +26,7 @@
 
       <div class="field">
         <label>Inactive Since</label>
-        <span><%= @user.inactive_since %></span>
+        <span><%= inactive_since(@newest_sub) %></span>
       </div>
     <% end %>
 

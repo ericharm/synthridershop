@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def account
     @user = current_user
+    @newest_sub = @user.newest_sub
     @plans = Plan.all
   end
 end
