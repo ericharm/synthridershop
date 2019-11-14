@@ -20,7 +20,12 @@ class User < ApplicationRecord
   end
 
   def authorized_to_edit?(bundle)
-    (is_admin || bundle.author_id == id) || false
+    if is_admin
+      return true
+    elsif bundle.author_id == id && !bundle.is_approved
+      return true
+    end
+    false
   end
 
   def authorized_to_approve?

@@ -38,6 +38,7 @@ class BundlesController < ApplicationController
       memo[c.contributor.name] << c.role.title
       memo
     end
+    @approve_button_text = @bundle.is_approved ? 'Unapprove' : 'Approve'
   end
 
   def edit
@@ -46,11 +47,12 @@ class BundlesController < ApplicationController
   end
 
   def update
-    bundle = current_user.bundles.find(params[:id])
-    if bundle
+    bundle = Bundle.find(params[:id])
+    if bundle && current_user.authorized_to_edit(bundle)
       archive = bundle_params[:archive]
       if archive
         extract_archive(archive, bundle)
+        bundle.update(is_approved: false)
       else
         bundle.update(bundle_params)
       end
@@ -73,7 +75,7 @@ class BundlesController < ApplicationController
 
   def approve
     bundle = Bundle.find(params[:id])
-    bundle.update(is_approved: true) if current_user.authorized_to_approve?
+    bundle.update(is_approved: !bundle.is_approved) if current_user.authorized_to_approve?
     redirect_to action: 'show', id: bundle.id
   end
 

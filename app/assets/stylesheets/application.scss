@@ -90,6 +90,10 @@ form .actions {
   text-align: right;
 }
 
+form[action*="approve"] {
+  display: inline;
+}
+
 textarea#bundle_description {
   height: 10em;
   outline: 1px solid #cdcdcd;
