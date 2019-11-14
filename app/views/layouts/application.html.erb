@@ -13,9 +13,14 @@
   </head>
 
   <body>
-    <%= render 'shared/navbar' %>
-    <div class="flash-toaster z-depth-3"><%= notice %></div>
-    <div class="flash-toaster deep-orange darken-4 z-depth-3"><%= alert %></div>
-    <%= yield %>
+    <div id="app">
+      <div id="content">
+        <%= render 'shared/navbar' %>
+        <div class="flash-toaster z-depth-3"><%= notice %></div>
+        <div class="flash-toaster deep-orange darken-4 z-depth-3"><%= alert %></div>
+        <%= yield %>
+      </div>
+      <%= render 'shared/footer' %>
+    </div>
   </body>
 </html>
