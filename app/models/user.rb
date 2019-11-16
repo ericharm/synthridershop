@@ -19,6 +19,10 @@ class User < ApplicationRecord
     subscriptions.order(expires_at: :desc).first || nil
   end
 
+  def has_uploaded_maps?
+    bundles.count > 0
+  end
+
   def authorized_to_edit?(bundle)
     if is_admin
       return true
