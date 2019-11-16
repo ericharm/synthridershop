@@ -2,13 +2,15 @@ class BundlesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @bundles = Bundle.where(is_approved: true)
+    @bundles = Bundle.where.not(approved_at: nil)
       .joins('left join users on users.id = bundles.author_id')
       .select('bundles.*', 'users.username as author_name')
+      .order(approved_at: :desc)
     @pending = !current_user.authorized_to_approve?  ? []
-      : Bundle.where.not(is_approved: true)
+      : Bundle.where(approved_at: nil)
         .joins('left join users on users.id = bundles.author_id')
         .select('bundles.*', 'users.username as author_name')
+        .order(updated_at: :desc)
   end
 
   def new
@@ -31,14 +33,14 @@ class BundlesController < ApplicationController
       .includes(:contributions => [:contributor, :role])
       .includes(:difficulties).find(params[:id])
     redirect_to action: 'index' unless @bundle
-    visible = @bundle.is_approved || @bundle.author_id == current_user.id || current_user.authorized_to_approve?
+    visible = @bundle.approved_at || @bundle.author_id == current_user.id || current_user.authorized_to_approve?
     redirect_to action: 'index' unless visible
     @contributors = @bundle.contributions.reduce({}) do |memo, c|
       memo[c.contributor.name] = memo[c.contributor.name] || []
       memo[c.contributor.name] << c.role.title
       memo
     end
-    @approve_button_text = @bundle.is_approved ? 'Unapprove' : 'Approve'
+    @approve_button_text = @bundle.approved_at ? 'Unapprove' : 'Approve'
   end
 
   def edit
@@ -52,7 +54,7 @@ class BundlesController < ApplicationController
       archive = bundle_params[:archive]
       if archive
         extract_archive(archive, bundle)
-        bundle.update(is_approved: false)
+        bundle.update(approved_at: nil)
       else
         bundle.update(bundle_params)
       end
@@ -75,7 +77,13 @@ class BundlesController < ApplicationController
 
   def approve
     bundle = Bundle.find(params[:id])
-    bundle.update(is_approved: !bundle.is_approved) if current_user.authorized_to_approve?
+    if bundle && current_user.authorized_to_approve?
+      approval = bundle.approved_at ? nil : Time.now
+      bundle.update(approved_at: approval)
+      flash[:notice] = 'Song approval has been updated'
+    else
+      flash[:alert] = 'Song approval could not be updated'
+    end
     redirect_to action: 'show', id: bundle.id
   end
 
@@ -104,7 +112,7 @@ class BundlesController < ApplicationController
   end
 
   def bundle_params
-    params.require(:bundle).permit(:title, :description, :archive, :public, :user_id)
+    params.require(:bundle).permit(:title, :description, :archive, :user_id)
   end
 
 end
