@@ -5,10 +5,10 @@ Rails.application.routes.draw do
   resources :bundles
   resources :subscriptions, only: [:index, :new]
   resources :payments, only: [:create]
+  resources :account, only: [:index]
 
   post 'bundles/:id/approve', to: 'bundles#approve', as: :approve
   get 'users/:username', to: 'users#show', as: :user
-  get 'account', to: 'users#account', as: :account
 
   get '/about' => 'pages#show', page: 'about', as: :about
   get '/terms' => 'pages#show', page: 'terms', as: :terms

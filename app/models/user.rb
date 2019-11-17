@@ -8,7 +8,7 @@ class User < ApplicationRecord
   validates_format_of :username, with: /^[a-zA-Z0-9_\.]*$/, :multiline => true
 
   def visible_bundles(current_user_id)
-    current_user_id == self.id ? self.bundles : self.bundles.where.not(approved_at: false)
+    current_user_id == self.id ? self.bundles : self.bundles.where.not(approved_at: nil)
   end
 
   def subscribed?
