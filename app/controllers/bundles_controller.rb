@@ -11,7 +11,8 @@ class BundlesController < ApplicationController
         .joins('left join users on users.id = bundles.author_id')
         .select('bundles.*', 'users.username as author_name')
         .order(updated_at: :desc)
-    if query = params['query'] && !query.empty?
+    query = params['query']
+    if query && !query.empty?
       @bundles = @bundles.search_by_title(query)
       @pending = @pending.search_by_title(query)
     end
