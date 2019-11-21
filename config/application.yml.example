@@ -1,0 +1,4 @@
+s3_key: xxxx
+s3_secret: xxxx
+s3_bucket: xxxx
+s3_region: us-east-1

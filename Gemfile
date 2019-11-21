@@ -14,6 +14,7 @@ gem 'paypal-sdk-rest'
 gem 'sqlite3'
 gem 'pg'
 gem 'devise'
+gem 'pg_search'
 
 # attachments
 gem 'carrierwave', '~> 1.0'

@@ -1,4 +1,5 @@
 class Bundle < ApplicationRecord
+  include PgSearch::Model
   belongs_to :author, class_name: 'User'
   has_many :song_difficulties, dependent: :destroy
   has_many :difficulties, through: :song_difficulties
@@ -9,6 +10,9 @@ class Bundle < ApplicationRecord
   mount_base64_uploader :thumbnail, ThumbnailUploader
 
   after_destroy :delete_linked_files
+
+  pg_search_scope :search_by_title, against: [:title, :artist],
+    using: [:tsearch, :trigram]
 
   def delete_linked_files
     self.remove_archive!
