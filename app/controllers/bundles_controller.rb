@@ -6,12 +6,12 @@ class BundlesController < ApplicationController
       .joins('left join users on users.id = bundles.author_id')
       .select('bundles.*', 'users.username as author_name')
       .order(approved_at: :desc)
-    @pending = !current_user.authorized_to_approve?  ? []
+    @pending = !current_user.authorized_to_approve? ? Bundle.none
       : Bundle.where(approved_at: nil)
         .joins('left join users on users.id = bundles.author_id')
         .select('bundles.*', 'users.username as author_name')
         .order(updated_at: :desc)
-    if query = params['query']
+    if query = params['query'] && !query.empty?
       @bundles = @bundles.search_by_title(query)
       @pending = @pending.search_by_title(query)
     end
