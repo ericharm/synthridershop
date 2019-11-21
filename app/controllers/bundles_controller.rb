@@ -2,20 +2,15 @@ class BundlesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @bundles = Bundle.where.not(approved_at: nil)
-      .joins('left join users on users.id = bundles.author_id')
-      .select('bundles.*', 'users.username as author_name')
-      .order(approved_at: :desc)
+    @bundles = Bundle.where.not(approved_at: nil).with_author_name.order(approved_at: :desc)
     @pending = !current_user.authorized_to_approve? ? Bundle.none
-      : Bundle.where(approved_at: nil)
-        .joins('left join users on users.id = bundles.author_id')
-        .select('bundles.*', 'users.username as author_name')
-        .order(updated_at: :desc)
+    : Bundle.where(approved_at: nil).with_author_name.order(updated_at: :desc)
     query = params['query']
     if query && !query.empty?
-      @bundles = @bundles.search_by_title(query)
-      @pending = @pending.search_by_title(query)
+      @bundles = @bundles.search_with_uploader(query)
+      @pending = @pending.search_with_uploader(query)
     end
+    @query = query || ''
   end
 
   def new

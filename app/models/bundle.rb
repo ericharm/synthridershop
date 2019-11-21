@@ -11,8 +11,17 @@ class Bundle < ApplicationRecord
 
   after_destroy :delete_linked_files
 
-  pg_search_scope :search_by_title, against: [:title, :artist],
-    using: { tsearch: { prefix: true } }
+  scope :with_author_name, -> {
+    where.not(approved_at: nil).joins('left join users on users.id = bundles.author_id')
+      .select('bundles.*', 'users.username as author_name')
+  }
+
+  # pg_search_scope :search_by_title, against: [:title, :artist],
+    # using: { tsearch: { prefix: true } }
+
+  pg_search_scope :search_with_uploader, against: [:title, :artist], associated_against: {
+    author: :username
+  }, using: { tsearch: { prefix: true } }
 
   def delete_linked_files
     self.remove_archive!
