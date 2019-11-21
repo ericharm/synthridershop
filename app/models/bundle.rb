@@ -12,7 +12,7 @@ class Bundle < ApplicationRecord
   after_destroy :delete_linked_files
 
   pg_search_scope :search_by_title, against: [:title, :artist],
-    using: [:tsearch, :trigram]
+    using: { tsearch: { prefix: true } }
 
   def delete_linked_files
     self.remove_archive!
