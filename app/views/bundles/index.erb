@@ -1,4 +1,13 @@
 <div class="container">
+  <%= form_tag search_index_path, { method: :post, class: 'col s12' } do |f| %>
+    <div class="input-field input-group">
+      <%= text_field_tag 'query', '', placeholder: 'Search', id: 'search-query' %>
+      <span class="suffix">
+        <%= submit_tag 'Search', class: 'btn' %>
+      </span>
+    </div>
+  <% end %>
+
   <% if @pending.length > 0 %>
     <h4>Pending maps</h4>
     <div class="bundle-cards">

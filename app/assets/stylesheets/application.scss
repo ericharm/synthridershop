@@ -63,6 +63,11 @@ input, textarea {
   @extend .grey-text, .text-lighten-4;
 }
 
+/* https://www.codeply.com/go/DzPdeMrNFZ/materialize-suffix-input-group-append */
+.input-group { display: table; }
+.input-group input, .suffix { display: table-cell; }
+.suffix { width:1%; }
+
 .bold {
   font-weight: bold;
 }

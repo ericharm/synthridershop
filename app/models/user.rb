@@ -35,4 +35,8 @@ class User < ApplicationRecord
   def authorized_to_approve?
     (is_admin || is_approver) || false
   end
+
+  def requires_subscription?
+    !subscribed? && !is_admin && !is_approver
+  end
 end
