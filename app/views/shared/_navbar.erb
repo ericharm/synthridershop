@@ -3,10 +3,13 @@
   <div class="nav-wrapper blue-grey darken-4">
     <%= link_to 'beatmaps', root_path, class: 'brand-logo' %>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
+
+
       <% if current_user %>
         <% if current_user.requires_subscription? %>
           <li><%= link_to 'Subscribe', new_subscription_path %></li>
         <% end %>
+        <li><%= link_to 'Songs', bundles_path %></li>
         <li>
           <%= link_to current_user.username, '#', class: 'dropdown-trigger', 'id' => 'user-pages' %>
             <ul class="dropdown-content">
@@ -16,14 +19,21 @@
               <% end %>
               <li class="divider"></li>
               <li><%= link_to 'Account', account_index_path %></li>
+              <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
             </ul>
         </li>
-        <li><%= link_to 'Songs', bundles_path %></li>
-        <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
       <% else %>
         <li><%= link_to 'Sign up', new_user_registration_path %></li>
         <li><%= link_to 'Sign in', new_user_session_path %></li>
       <% end %>
+      <li>
+        <%= form_tag search_index_path, { method: :post, class: 'col s12' } do |f| %>
+          <div class="input-field">
+            <%= search_field_tag 'query', '', placeholder: 'Search' %>
+            <i class="material-icons">search</i>
+          </div>
+        <% end %>
+      </li>
     </ul>
   </div>
 </nav>
@@ -31,3 +41,4 @@
 <script>
   dropdown('#user-pages')
 </script>
+
