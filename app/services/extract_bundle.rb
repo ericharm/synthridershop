@@ -49,21 +49,25 @@ module ExtractBundle
     def create_contributions(bundle)
       bundle.contributions.each { |c| c.destroy }
       @contributors.each do |contributor|
-        contributor_record = Contributor.find_or_create_by(name: contributor.name) do |c|
-          # c.icon =  contributor.icon # update if different
-          user = User.find_by(username: contributor.name)
-          c.user_id = user ? user.id : nil
+        if contributor.name && contributor.role
+          contributor_record = Contributor.find_or_create_by(name: contributor.name) do |c|
+            # c.icon =  contributor.icon # update if different
+            user = User.find_by(username: contributor.name)
+            c.user_id = user ? user.id : nil
+          end
+          role = ContributorRole.find_or_create_by(title: contributor.role)
+          Contribution.create(role_id: role.id, bundle_id: bundle.id, contributor_id: contributor_record.id)
         end
-        role = ContributorRole.find_or_create_by(title: contributor.role)
-        Contribution.create(role_id: role.id, bundle_id: bundle.id, contributor_id: contributor_record.id)
       end
     end
 
     def create_difficulties(bundle)
       bundle.song_difficulties.each { |d| d.destroy }
       @difficulties.each do |d|
-        difficulty = Difficulty.find_or_create_by(name: d.name)
-        SongDifficulty.find_or_create_by(difficulty_id: difficulty.id, bundle_id: bundle.id)
+        if d.name
+          difficulty = Difficulty.find_or_create_by(name: d.name)
+          SongDifficulty.find_or_create_by(difficulty_id: difficulty.id, bundle_id: bundle.id)
+        end
       end
     end
 
@@ -102,9 +106,9 @@ module ExtractBundle
 
     def initialize(data, archive)
       @archive = archive
-      @name = data['_difficulty']
-      @rank = data['_difficultyRank']
-      @file = data['_beatmapFilename']
+      @name = data['_difficulty'] || data['_difficulty']
+      @rank = data['_difficultyRank'] || data['_difficultyRank']
+      @file = data['_beatmapFilename'] || data['_beatmapFilename']
       raise UploadError, "Invalid difficulty descriptor for #{@name}" unless has_valid_descriptor
     end
 
@@ -125,9 +129,9 @@ module ExtractBundle
 
     def initialize(data, archive)
       @archive = archive
-      @name = data['_name']
-      @role = data['_role']
-      @icon = data['_iconPath']
+      @name = data['_name'] || data['name']
+      @role = data['_role'] || data['role']
+      @icon = data['_iconPath'] || data['iconPath']
       raise UploadError, "Invalid contributor icon for #{@name}" if @icon && !has_valid_icon
     end
 
