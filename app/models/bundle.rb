@@ -12,14 +12,16 @@ class Bundle < ApplicationRecord
   after_destroy :delete_linked_files
 
   scope :with_author_name, -> {
-    where.not(approved_at: nil).joins('left join users on users.id = bundles.author_id')
+    joins('left join users on users.id = bundles.author_id')
       .select('bundles.*', 'users.username as author_name')
   }
 
-  # pg_search_scope :search_by_title, against: [:title, :artist],
-    # using: { tsearch: { prefix: true } }
+  scope :with_author_and_contributors, -> { includes(:contributions).includes(:contributors) }
 
-  pg_search_scope :search_with_uploader, against: [:title, :artist], associated_against: {
+  pg_search_scope :search, against: [
+    [:title, 'A'], [:artist, 'B']
+  ], associated_against: {
+    contributors: :name,
     author: :username
   }, using: { tsearch: { prefix: true } }
 

@@ -2,13 +2,12 @@ class BundlesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @bundles = Bundle.where.not(approved_at: nil).with_author_name.order(approved_at: :desc)
-    @pending = !current_user.authorized_to_approve? ? Bundle.none
-    : Bundle.where(approved_at: nil).with_author_name.order(updated_at: :desc)
+    @bundles = approved_bundles
+    @pending = !current_user.authorized_to_approve? ? Bundle.none : pending_bundles
     query = params['query']
     if query && !query.empty?
-      @bundles = @bundles.search_with_uploader(query)
-      @pending = @pending.search_with_uploader(query)
+      @bundles = @bundles.search(query)
+      @pending = @pending.search(query)
     end
     @query = query || ''
   end
@@ -28,9 +27,7 @@ class BundlesController < ApplicationController
   end
 
   def show
-    @bundle = Bundle.joins('left join users on users.id = bundles.author_id')
-      .select('bundles.*', 'users.username as author_name')
-      .includes(:contributions => [:contributor, :role])
+    @bundle = Bundle.with_author_name.includes(:contributions => [:contributor, :role])
       .includes(:difficulties).find(params[:id])
     redirect_to action: 'index' unless @bundle
     visible = @bundle.approved_at || @bundle.author_id == current_user.id || current_user.authorized_to_approve?
@@ -89,7 +86,6 @@ class BundlesController < ApplicationController
 
   private
 
-
   def extract_archive(archive, bundle = nil)
     success_verb = bundle ? 'updated' : 'created'
     begin
@@ -113,6 +109,14 @@ class BundlesController < ApplicationController
 
   def bundle_params
     params.require(:bundle).permit(:title, :description, :archive, :user_id)
+  end
+
+  def pending_bundles
+    Bundle.where(approved_at: nil).with_author_and_contributors.order(updated_at: :desc)
+  end
+
+  def approved_bundles
+    Bundle.where.not(approved_at: nil).with_author_and_contributors.order(approved_at: :desc)
   end
 
 end
