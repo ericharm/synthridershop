@@ -10,6 +10,7 @@ class BundlesController < ApplicationController
       @pending = @pending.search(query)
     end
     @query = query || ''
+    @pending_only = params['pending_only'] || false
   end
 
   def new

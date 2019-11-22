@@ -20,10 +20,12 @@
     </div>
   <% end %>
 
-  <h4>Featured maps</h4>
-  <div class="bundle-cards">
-    <% @bundles.each do |bundle| %>
-      <%= render partial: 'card', locals: { bundle: bundle } %>
-    <% end %>
-  </div>
+  <% unless @pending_only %>
+    <h4>Featured maps</h4>
+    <div class="bundle-cards">
+      <% @bundles.each do |bundle| %>
+        <%= render partial: 'card', locals: { bundle: bundle } %>
+      <% end %>
+    </div>
+<% end %>
 </div>

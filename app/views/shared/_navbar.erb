@@ -9,6 +9,11 @@
         <% if current_user.requires_subscription? %>
           <li><%= link_to 'Subscribe', new_subscription_path %></li>
         <% end %>
+
+        <% if current_user.authorized_to_approve? %>
+          <li><%= link_to 'Pending', bundles_path(pending_only: true) %></li>
+        <% end %>
+
         <li><%= link_to 'Songs', bundles_path %></li>
         <li>
           <%= link_to current_user.username, '#', class: 'dropdown-trigger', 'id' => 'user-pages' %>
