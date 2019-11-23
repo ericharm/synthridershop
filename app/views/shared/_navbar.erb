@@ -1,31 +1,28 @@
-
 <nav>
   <div class="nav-wrapper blue-grey darken-4">
     <%= link_to 'beatmaps', root_path, class: 'brand-logo' %>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-
-
       <% if current_user %>
         <% if current_user.requires_subscription? %>
           <li><%= link_to 'Subscribe', new_subscription_path %></li>
         <% end %>
 
         <% if current_user.authorized_to_approve? %>
-          <li><%= link_to 'Pending', bundles_path(pending_only: true) %></li>
+          <li><%= link_to 'Pending', songs_path(pending_only: true) %></li>
         <% end %>
 
-        <li><%= link_to 'Songs', bundles_path %></li>
+        <li><%= link_to 'Songs', songs_path %></li>
         <li>
           <%= link_to current_user.username, '#', class: 'dropdown-trigger', 'id' => 'user-pages' %>
-            <ul class="dropdown-content">
-              <li><%= link_to 'Upload a Map', new_bundle_path  %></li>
-              <% if current_user.has_uploaded_maps? %>
-                <li><%= link_to 'Your Maps', user_path(current_user.username) %></li>
-              <% end %>
-              <li class="divider"></li>
-              <li><%= link_to 'Account', account_index_path %></li>
-              <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
-            </ul>
+          <ul class="dropdown-content">
+            <li><%= link_to 'Upload a Map', new_song_path  %></li>
+            <% if current_user.has_uploaded_maps? %>
+              <li><%= link_to 'Your Maps', user_path(current_user.username) %></li>
+            <% end %>
+            <li class="divider"></li>
+            <li><%= link_to 'Account', account_index_path %></li>
+            <li><%= link_to 'Log out', destroy_user_session_path, :method => :delete %></li>
+          </ul>
         </li>
       <% else %>
         <li><%= link_to 'Sign up', new_user_registration_path %></li>

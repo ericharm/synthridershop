@@ -2,14 +2,15 @@ Rails.application.routes.draw do
   devise_for :users
 
   root to:  'bundles#index'
-  resources :bundles
+  # resources :bundles
+  resources :songs, controller: 'bundles'
   resources :subscriptions, only: [:index, :new]
   resources :payments, only: [:create]
   resources :account, only: [:index]
   resources :search, only: [:create]
 
   # resources :approvals, only: [:create]
-  post 'bundles/:id/approve', to: 'bundles#approve', as: :approve
+  post 'songs/:id/approve', to: 'bundles#approve', as: :approve
   get 'users/:username', to: 'users#show', as: :user
 
   get '/about' => 'pages#show', page: 'about', as: :about

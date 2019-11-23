@@ -45,3 +45,5 @@ function dropdown (selector) {
     if (event.target !== trigger) hide()
   })
 }
+
+document.querySelector('.flash-toaster').addClass('fade-out')

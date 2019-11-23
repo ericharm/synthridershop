@@ -37,13 +37,13 @@
         <% if current_user.subscribed? %>
           <%= link_to 'Download', @bundle.archive.url, class: 'btn waves-effect waves-light' %>
         <% end %>
-      <% end %>
+     <% end %>
 
-      <% if current_user.authorized_to_edit?(@bundle) %>
-        <%= link_to 'Edit', edit_bundle_path(@bundle), class: 'btn' %>
-      <% end %>
+     <% if current_user.authorized_to_edit?(@bundle) %>
+       <%= link_to 'Edit', edit_song_path(@bundle), class: 'btn' %>
+     <% end %>
 
-      <% if current_user.authorized_to_approve? %>
+     <% if current_user.authorized_to_approve? %>
         <%= form_with(url: approve_path(@bundle), method: 'post') do |f| %>
           <%= f.submit @approve_button_text, class: 'btn waves-effect waves-light' %>
         <% end %>
@@ -51,6 +51,6 @@
     </div>
   </div>
   <div>
-    <%= link_to 'Back', bundles_path, class: 'btn waves-effect waves-light' %>
+    <%= link_to 'Back', songs_path, class: 'btn waves-effect waves-light' %>
   </div>
 </div>
