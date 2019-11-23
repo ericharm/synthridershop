@@ -48,7 +48,7 @@ class BundlesController < ApplicationController
 
   def update
     bundle = Bundle.find(params[:id])
-    if bundle && current_user.authorized_to_edit(bundle)
+    if bundle && current_user.authorized_to_edit?(bundle)
       archive = bundle_params[:archive]
       if archive
         extract_archive(archive, bundle)
