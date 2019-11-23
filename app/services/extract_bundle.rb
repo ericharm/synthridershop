@@ -106,9 +106,9 @@ module ExtractBundle
 
     def initialize(data, archive)
       @archive = archive
-      @name = data['_difficulty'] || data['_difficulty']
-      @rank = data['_difficultyRank'] || data['_difficultyRank']
-      @file = data['_beatmapFilename'] || data['_beatmapFilename']
+      @name = data['_difficulty'] || data['difficulty']
+      @rank = data['_difficultyRank'] || data['difficultyRank']
+      @file = data['_beatmapFilename'] || data['beatmapFilename']
       raise UploadError, "Invalid difficulty descriptor for #{@name}" unless has_valid_descriptor
     end
 
