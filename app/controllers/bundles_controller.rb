@@ -99,6 +99,7 @@ class BundlesController < ApplicationController
       end
       extractor.create_contributions(bundle)
       extractor.create_difficulties(bundle)
+      extractor.create_characteristics(bundle)
       flash[:notice] = "#{bundle.title} has been #{success_verb}"
     rescue UploadError => e
       flash[:alert] = e

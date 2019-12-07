@@ -35,6 +35,10 @@ module ExtractBundle
         defined = s['_difficultyBeatmaps'] || []
         memo.concat(defined.map { |d| DifficultyInfo.new(d, @archive) })
       end
+      @characteristics = sets.reduce([]) do |memo, s|
+        characteristic = s.dig('_beatmapCharacteristicName')
+        (memo << characteristic if characteristic && characteristic.length) || memo
+      end
       raise UploadError, 'Missing cover image' unless cover_image_exists
       raise UploadError, 'Missing or invalid song file' unless has_valid_song
     end
@@ -68,6 +72,14 @@ module ExtractBundle
           difficulty = Difficulty.find_or_create_by(name: d.name)
           SongDifficulty.find_or_create_by(difficulty_id: difficulty.id, bundle_id: bundle.id)
         end
+      end
+    end
+
+    def create_characteristics(bundle)
+      bundle.song_characteristics.each { |c| c.destroy }
+      @characteristics.each do |char_name|
+        characteristic = Characteristic.find_or_create_by(name: char_name)
+        SongCharacteristic.find_or_create_by(characteristic_id: characteristic.id, bundle_id: bundle.id)
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_21_154858) do
+ActiveRecord::Schema.define(version: 2019_12_07_114553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,12 @@ ActiveRecord::Schema.define(version: 2019_11_21_154858) do
     t.text "description"
     t.integer "bpm"
     t.datetime "approved_at"
+  end
+
+  create_table "characteristics", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "contributions", force: :cascade do |t|
@@ -63,6 +69,13 @@ ActiveRecord::Schema.define(version: 2019_11_21_154858) do
     t.datetime "updated_at", null: false
     t.string "unit_of_time"
     t.integer "quantity"
+  end
+
+  create_table "song_characteristics", force: :cascade do |t|
+    t.integer "bundle_id", null: false
+    t.integer "characteristic_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "song_difficulties", force: :cascade do |t|

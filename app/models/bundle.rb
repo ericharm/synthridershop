@@ -1,6 +1,8 @@
 class Bundle < ApplicationRecord
   include PgSearch::Model
   belongs_to :author, class_name: 'User'
+  has_many :song_characteristics, dependent: :destroy
+  has_many :characteristics, through: :song_characteristics
   has_many :song_difficulties, dependent: :destroy
   has_many :difficulties, through: :song_difficulties
   has_many :contributions, dependent: :destroy
