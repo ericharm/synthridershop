@@ -1,6 +1,7 @@
 class Bundle < ApplicationRecord
   include PgSearch::Model
   belongs_to :author, class_name: 'User'
+  validates :game, inclusion: { in: ['Beat Saber', 'Synth Riders'] }
   has_many :song_characteristics, dependent: :destroy
   has_many :characteristics, through: :song_characteristics
   has_many :song_difficulties, dependent: :destroy

@@ -1,5 +1,12 @@
 <%= form_for @bundle, url: action do |f| %>
   <div class="field">
+    <%= f.label :game %>
+    <div class="input-field col sm12">
+      <%= f.select :game, [ 'Beat Saber', 'Synth Riders' ], :include_blank => true %>
+    </div>
+  </div>
+
+  <div class="field">
     <%= f.label :title %>
     <%= f.text_field :title, autofocus: true %>
   </div>
@@ -37,4 +44,8 @@
     var preview = document.querySelector('.archive-preview')
     preview.classList.remove('hide')
   })
+
+  var elems = document.querySelectorAll('select')
+  window.M.FormSelect.init(elems, {})
+
 </script>

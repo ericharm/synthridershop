@@ -15,6 +15,12 @@ class User < ApplicationRecord
     subscriptions.where('expires_at > ?', Time.now).length > 0
   end
 
+  def can_download?
+    # probably need to expand this, an unsubscribed user
+    # should probably be allowed to download their own maps
+    authorized_to_approve? || subscribed?
+  end
+
   def newest_sub
     subscriptions.order(expires_at: :desc).first || nil
   end

@@ -4,6 +4,10 @@
     <span class="bold"><%= @bundle.artist %></span>
   </h4>
 
+  <div>
+    <span class="pill"><%= @bundle.game %></span>
+  </div>
+
   <h5>
     <%= link_to @bundle.author_name, user_path(@bundle.author_name), class: 'teal-text text-lighten-1' %>
   </h5>
@@ -18,30 +22,36 @@
         <%= description(@bundle.description) %>
       </div>
 
-      <div class="m-b">
-        <label>Contributors</label><br/>
-        <% @contributors.each do |contributor, contributions| %>
-          <%= contributor %>:&nbsp;
-          <%= contributions.join(', ') %><br/>
-        <% end %>
-      </div>
+      <% if @contributors.length > 0 %>
+        <div class="m-b">
+          <label>Contributors</label><br/>
+          <% @contributors.each do |contributor, contributions| %>
+            <%= contributor %>:&nbsp;
+            <%= contributions.join(', ') %><br/>
+          <% end %>
+        </div>
+      <% end %>
 
-      <div class="m-b">
-        <label>Difficulties</label><br/>
-        <% @bundle.difficulties.each do |difficulty| %>
-          <span class="pill"><%= difficulty.name %></span>
-        <% end %>
-      </div>
+      <% if @bundle.difficulties.length > 0 %>
+        <div class="m-b">
+          <label>Difficulties</label><br/>
+          <% @bundle.difficulties.each do |difficulty| %>
+            <span class="pill"><%= difficulty.name %></span>
+          <% end %>
+        </div>
+      <% end %>
 
-      <div class="m-b">
-        <label>Characteristics</label><br/>
-        <% @bundle.characteristics.each do |c| %>
-          <span class="pill"><%= c.name %></span>
-        <% end %>
-      </div>
+      <% if @bundle.characteristics.length > 0 %>
+        <div class="m-b">
+          <label>Characteristics</label><br/>
+          <% @bundle.characteristics.each do |c| %>
+            <span class="pill"><%= c.name %></span>
+          <% end %>
+        </div>
+      <% end %>
 
       <% if @bundle.archive %>
-        <% if current_user.subscribed? %>
+        <% if current_user.can_download? %>
           <%= link_to 'Download', @bundle.archive.url, class: 'btn waves-effect waves-light' %>
         <% end %>
      <% end %>

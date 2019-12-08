@@ -15,12 +15,12 @@
 //= require turbolinks
 //= require_tree .
 
-function ready (fn) {
+window.ready = function (fn) {
   if (document.readyState !== 'loading') fn()
   else document.addEventListener('DOMContentLoaded', fn)
 }
 
-function dropdown (selector) {
+window.dropdown = function (selector) {
   var trigger = document.querySelector(selector)
   var content = document.querySelector(selector + ' + ul')
   var active = false
@@ -46,4 +46,4 @@ function dropdown (selector) {
   })
 }
 
-document.querySelector('.flash-toaster').addClass('fade-out')
+// document.querySelector('.flash-toaster').addClass('fade-out')

@@ -1,5 +1,5 @@
-module ExtractBundle
-  class ExtractBundle
+module BeatSaberArchiveValidator
+  class Validator
     require 'zip/zip'
 
     MAXIMUM_UPLOAD_SIZE = 20 * 1_000_000 # 20MB

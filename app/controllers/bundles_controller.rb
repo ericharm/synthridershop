@@ -19,7 +19,8 @@ class BundlesController < ApplicationController
 
   def create
     archive = bundle_params[:archive]
-    bundle = extract_archive(archive)
+    game = bundle_params[:game]
+    bundle = extract_archive(archive, game)
     if bundle
       redirect_to action: 'show', id: bundle.id
     else
@@ -50,8 +51,9 @@ class BundlesController < ApplicationController
     bundle = Bundle.find(params[:id])
     if bundle && current_user.authorized_to_edit?(bundle)
       archive = bundle_params[:archive]
+      game = bundle_params[:game] || bundle.game
       if archive
-        extract_archive(archive, bundle)
+        extract_archive(archive, game, bundle)
         bundle.update(approved_at: nil)
       else
         bundle.update(bundle_params)
@@ -87,12 +89,17 @@ class BundlesController < ApplicationController
 
   private
 
-  def extract_archive(archive, bundle = nil)
+  def extract_archive(archive, game, bundle = nil)
     success_verb = bundle ? 'updated' : 'created'
     begin
-      extractor = ExtractBundle::ExtractBundle.new(archive)
+      # extractor = ExtractBundle::ExtractBundle.new(archive)
+      game_validator = {
+        'Beat Saber' => BeatSaberArchiveValidator,
+        'Synth Riders' => SynthRidersArchiveValidator
+      }[game]
+      extractor = game_validator::Validator.new(archive)
       extractor.validate_archive
-      if (bundle)
+      if bundle
         bundle.update(bundle_params.merge(extractor.bundle_params))
       else
         bundle = current_user.bundles.create(bundle_params.merge(extractor.bundle_params))
@@ -110,7 +117,7 @@ class BundlesController < ApplicationController
   end
 
   def bundle_params
-    params.require(:bundle).permit(:title, :description, :archive, :user_id)
+    params.require(:bundle).permit(:title, :description, :game, :archive, :user_id)
   end
 
   def pending_bundles
