@@ -1,5 +1,5 @@
 <div class="container m-b">
-  <%= render 'form' %>
+  <%= render partial: 'form', locals: { action: song_path(@bundle) } %>
 </div>
    
 <div class="container">

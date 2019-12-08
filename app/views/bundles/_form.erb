@@ -1,4 +1,4 @@
-<%= form_for @bundle, url: song_path(@bundle) do |f| %>
+<%= form_for @bundle, url: action do |f| %>
   <div class="field">
     <%= f.label :title %>
     <%= f.text_field :title, autofocus: true %>

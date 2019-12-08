@@ -29,7 +29,14 @@
       <div class="m-b">
         <label>Difficulties</label><br/>
         <% @bundle.difficulties.each do |difficulty| %>
-          <span class="difficulty-pill"><%= difficulty.name %></span>
+          <span class="pill"><%= difficulty.name %></span>
+        <% end %>
+      </div>
+
+      <div class="m-b">
+        <label>Characteristics</label><br/>
+        <% @bundle.characteristics.each do |c| %>
+          <span class="pill"><%= c.name %></span>
         <% end %>
       </div>
 
